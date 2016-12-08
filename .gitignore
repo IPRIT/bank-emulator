@@ -1,0 +1,8 @@
+# Created by .ignore support plugin
+
+# IntelliJ project files
+.idea
+node_modules
+config.development.json
+/cdn
+# config.json

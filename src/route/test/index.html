@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+  <div>
+    <h1>Works</h1>
+    <button onclick="vkLogin()">Vk Sign In</button>
+  </div>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js"></script>
+  <script type="text/javascript">
+    window.vkAsyncInit = function() {
+      VK.init({
+        apiId: 4720039
+      });
+    };
+
+    setTimeout(function() {
+      var container = document.createElement('div');
+      container.id = 'vk_api_transport';
+      document.body.appendChild(container);
+
+      var el = document.createElement("script");
+      el.type = "text/javascript";
+      el.src = "//vk.com/js/api/openapi.js";
+      el.async = true;
+      container.appendChild(el);
+    }, 0);
+
+    function vkLogin() {
+      VK.Auth.login(vkLoginCallback);
+    }
+    
+    function vkLoginCallback(response) {
+      var status = response.status;
+      if (status === 'connected') {
+        var session = response.session;
+        var user = session.user;
+        console.log(status, session);
+
+        // Retrieving user's photo & send it to the server
+        getProfile(user.id, function(err, profile) {
+          if (err) {
+            return console.error(err);
+          }
+          user.photo = profile.photo_200 || profile.photo_max;
+          var apiEndpoint = '/api/user/authenticate/vk';
+          var $injector = angular.injector(['ng']);
+          var $http = $injector.get('$http');
+          $http.post(apiEndpoint, session).then(function(response) {
+            console.log(response);
+          });
+        });
+      }
+    }
+
+    function getProfile(vkId, cb) {
+      VK.Api.call('users.get', { user_ids: vkId, fields: 'photo_max,photo_200' }, function(r) {
+        if (!r.response || !r.response.length) {
+          return cb(new Error('Response object is empty'));
+        }
+        cb(null, r.response[0]);
+      });
+    }
+  </script>
+</body>
+</html>
