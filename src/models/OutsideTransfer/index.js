@@ -12,11 +12,11 @@ let OutsideTransfer = sequelize.define('OutsideTransfer', {
     type: Sequelize.STRING
   },
   withdrawAmount: {
-    type: Sequelize.DECIMAL(10, 2),
+    type: Sequelize.DECIMAL(65, 2),
     allowNull: false
   },
-  totalAmount: {
-    type: Sequelize.DECIMAL(10, 2),
+  incomeAmount: {
+    type: Sequelize.DECIMAL(65, 2),
     allowNull: false
   }
 }, {

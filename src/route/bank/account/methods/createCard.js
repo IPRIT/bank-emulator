@@ -25,7 +25,7 @@ async function create({ title = '', currencyNumber, parentId } = {}, user) {
   try {
     let account = await user.createAccount({
       title,
-      balance: 1,
+      balance: 100000,
       currencyNumber,
       parentId
     }, { transaction: t });

@@ -2,7 +2,7 @@ import Sequelize from 'sequelize';
 import sequelize from '../sequelize';
 import deap from 'deap';
 
-function TRANSACTION_NUMBER(length = 20) {
+function TRANSACTION_NUMBER(length = 16) {
   return () => Math.floor(Math.pow(10, length) * Math.random());
 }
 
@@ -13,7 +13,7 @@ let Transaction = sequelize.define('Transaction', {
     primaryKey: true
   },
   operationId: {
-    type: Sequelize.BIGINT,
+    type: Sequelize.BIGINT(30),
     allowNull: false,
     defaultValue: TRANSACTION_NUMBER()
   },

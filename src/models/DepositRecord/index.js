@@ -9,7 +9,7 @@ let DepositRecord = sequelize.define('DepositRecord', {
     primaryKey: true
   },
   balance: {
-    type: Sequelize.DECIMAL(10, 2),
+    type: Sequelize.DECIMAL(65, 2),
     allowNull: false,
     defaultValue: 0
   },

@@ -5,7 +5,7 @@ import { Card, Currency } from '../../../../models';
 
 export default function getCards(req, res, next) {
   let user = req.user;
-  let params = req.body;
+  let params = req.query;
   
   Promise.resolve().then(() => {
     return get(params, user);
@@ -17,7 +17,8 @@ export default function getCards(req, res, next) {
 function get(params, user) {
   return user.getAccounts({
     include: [{
-      model: Card
+      model: Card,
+      required: true
     }, {
       model: Currency
     }]

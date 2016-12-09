@@ -9,7 +9,7 @@ let DepositReward = sequelize.define('DepositReward', {
     primaryKey: true
   },
   rewardAmount: {
-    type: Sequelize.DECIMAL(10, 2),
+    type: Sequelize.DECIMAL(65, 2),
     allowNull: false,
     defaultValue: 0
   },

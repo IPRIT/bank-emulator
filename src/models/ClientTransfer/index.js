@@ -9,11 +9,11 @@ let ClientTransfer = sequelize.define('ClientTransfer', {
     primaryKey: true
   },
   withdrawAmount: {
-    type: Sequelize.DECIMAL(10, 2),
+    type: Sequelize.DECIMAL(65, 2),
     allowNull: false
   },
-  totalAmount: {
-    type: Sequelize.DECIMAL(10, 2),
+  incomeAmount: {
+    type: Sequelize.DECIMAL(65, 2),
     allowNull: false
   }
 }, {

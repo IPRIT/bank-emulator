@@ -8,7 +8,7 @@ function ACCOUNT_NUMBER(length = 16) {
 
 let Account = sequelize.define('Account', {
   number: {
-    type: Sequelize.BIGINT,
+    type: Sequelize.BIGINT(30),
     allowNull: false,
     defaultValue: ACCOUNT_NUMBER(),
     primaryKey: true
@@ -18,7 +18,7 @@ let Account = sequelize.define('Account', {
     defaultValue: ''
   },
   balance: {
-    type: Sequelize.DECIMAL(10, 2),
+    type: Sequelize.DECIMAL(65, 2),
     defaultValue: 0
   },
   isActive: {

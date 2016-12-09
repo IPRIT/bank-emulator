@@ -12,7 +12,7 @@ let Deposit = sequelize.define('Deposit', {
     type: Sequelize.STRING,
     defaultValue: 'Unnamed Deposit'
   },
-  annualPercent: {
+  annualInterest: {
     type: Sequelize.FLOAT,
     defaultValue: 0
   },

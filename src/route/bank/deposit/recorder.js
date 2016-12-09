@@ -1,7 +1,7 @@
 import { Deposit } from '../../../models';
 import Promise from 'bluebird';
 
-const timeFrameMs = .5 * 1000;
+const timeFrameMs = 5 * 1000;
 
 let interval;
 
@@ -31,7 +31,6 @@ async function _record() {
         balance,
         recordDate: new Date()
       };
-      //console.log(`[ ${account.number} ] Balance: ${account.balance}`);
       let record = await deposit.createDepositRecord(newRecord);
     });
     

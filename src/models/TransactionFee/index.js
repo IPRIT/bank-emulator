@@ -13,7 +13,7 @@ let TransactionFee = sequelize.define('TransactionFee', {
     defaultValue: 0
   },
   feeAmount: {
-    type: Sequelize.DECIMAL(10, 2),
+    type: Sequelize.DECIMAL(65, 2),
     defaultValue: 0
   }
 }, {

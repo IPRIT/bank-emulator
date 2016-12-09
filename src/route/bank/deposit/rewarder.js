@@ -1,12 +1,12 @@
 import sequelize from '../../../models/sequelize';
-import { Deposit, DepositRecord } from '../../../models';
+import { Deposit, DepositRecord, Account } from '../../../models';
 import Promise from 'bluebird';
 
-const annualPeriodMs = 1 * 60 * 1000; // year = 365.251 * 24 * 60 * 60 * 1000
+const annualPeriodMs = 5 * 60 * 1000; // year = 365.251 * 24 * 60 * 60 * 1000
 const annualCalculationPeriods = 12;
 const monthPeriodMs = annualPeriodMs / annualCalculationPeriods;
 
-const checkPeriod = 3 * 1000;
+const checkPeriod = 5 * 1000;
 
 let interval;
 
@@ -39,7 +39,7 @@ async function _reward() {
     //handle
     deposits.forEach(async deposit => {
       let account = await deposit.getAccount();
-      let avgMonthlyBalance = (await DepositRecord.findOne({
+      let avgMonthlyBalanceResult = (await DepositRecord.findOne({
         attributes: [[ sequelize.fn('AVG', sequelize.col('balance')), 'avgBalance' ]],
         where: {
           recordDate: {
@@ -47,10 +47,14 @@ async function _reward() {
           },
           depositUuid: deposit.uuid
         }
-      })).dataValues.avgBalance;
-      console.log(`[ ${account.number} ] Avg Balance:`, avgMonthlyBalance);
+      })).get({ plain: true });
       
-      let rewardAmount = avgMonthlyBalance * deposit.annualPercent / (100 * annualCalculationPeriods);
+      let avgMonthlyBalance = avgMonthlyBalanceResult.avgBalance || 0;
+      if (avgMonthlyBalance < 1e-6) {
+        return;
+      }
+      
+      let rewardAmount = avgMonthlyBalance * deposit.annualInterest / (100 * annualCalculationPeriods);
   
       let t = await sequelize.transaction();
       try {
@@ -62,7 +66,7 @@ async function _reward() {
           lastTimeRewarded: new Date()
         }, { transaction: t });
         t.commit();
-        console.log(`[ ${account.number} ] Add To Balance +${rewardAmount.toFixed(2)} with annual percent income: ${deposit.annualPercent}%`);
+        console.log(`[ ${account.number} ] Add To Balance +${rewardAmount.toFixed(2)} with annual percent income: ${deposit.annualInterest}%; Avg Balance: ${avgMonthlyBalance}`);
       } catch (err) {
         t.rollback();
         console.error('[ Deposit Rewarder Error ] [ Operation rollback ]', err);
