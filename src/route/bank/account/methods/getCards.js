@@ -2,6 +2,8 @@ import { filterEntity as filter, ensureValue, cardGenerator } from '../../../../
 import Promise from 'bluebird';
 import sequelize from '../../../../models/sequelize';
 import { Card, Currency } from '../../../../models';
+import deap from "deap";
+import { transliterate } from 'transliteration';
 
 export default function getCards(req, res, next) {
   let user = req.user;
@@ -22,5 +24,9 @@ function get(params, user) {
     }, {
       model: Currency
     }]
+  }).map(account => {
+    return deap.extend(account.Cards[0], {
+      ccHolder: transliterate(user.fullName)
+    });
   });
 }
