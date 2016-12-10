@@ -1,7 +1,7 @@
 import { filterEntity as filter, ensureValue, cardGenerator } from '../../../../utils';
 import Promise from 'bluebird';
 import sequelize from '../../../../models/sequelize';
-import { Card, Currency } from '../../../../models';
+import { Card, Currency, Account } from '../../../../models';
 import deap from "deap";
 import { transliterate } from 'transliteration';
 
@@ -23,7 +23,8 @@ function get(params, user) {
       required: true
     }, {
       model: Currency
-    }]
+    }],
+    order: [ [Account, 'createdAt', 'DESC'] ]
   }).map(account => {
     account = account.get({ plain: true });
     account.Cards[0] = deap.extend(account.Cards[0], {
