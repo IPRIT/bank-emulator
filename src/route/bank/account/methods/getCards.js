@@ -25,8 +25,9 @@ function get(params, user) {
       model: Currency
     }]
   }).map(account => {
-    return deap.extend(account.Cards[0], {
+    deap.extend(account.Cards[0], {
       ccHolder: transliterate(user.fullName)
     });
+    return account;
   });
 }
