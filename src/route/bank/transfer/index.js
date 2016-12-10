@@ -9,5 +9,6 @@ router.post('/client', [ userRetriever, rightsAllocator('user') ], transfer.clie
 router.post('/b2b', [ userRetriever, rightsAllocator('user') ], transfer.b2bTransfer);
 
 router.get('/convert', [ userRetriever, rightsAllocator('user') ], transfer.convert);
+router.get('/getCurrencies', [ userRetriever, rightsAllocator('user') ], transfer.getCurrencies);
 
 export default router;
