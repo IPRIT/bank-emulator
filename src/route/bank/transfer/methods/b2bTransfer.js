@@ -72,7 +72,7 @@ async function _b2bTransfer({ amount, fromAccountNumber, to } = {}, user) {
     
     return outsideTransfer;
   } catch (err) {
-    transaction.rollback();
+    await transaction.rollback();
     await transactionBlock.update({
       status: 'failed'
     });

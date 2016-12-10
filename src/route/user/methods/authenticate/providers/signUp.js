@@ -19,6 +19,9 @@ function signUp(user) {
   
   if (password !== confirmPassword) {
     throw new HttpError('Passwords do not equal');
+  } else if (!password || !email
+    || !phoneNumber || !firstName || !lastName) {
+    throw new HttpError('User information can\'t be a blank');
   }
   
   return findUser(user).then(foundUser => {

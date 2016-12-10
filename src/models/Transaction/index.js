@@ -15,7 +15,8 @@ let Transaction = sequelize.define('Transaction', {
   operationId: {
     type: Sequelize.BIGINT(30),
     allowNull: false,
-    defaultValue: TRANSACTION_NUMBER()
+    defaultValue: TRANSACTION_NUMBER(),
+    unique: true
   },
   type: {
     type: Sequelize.ENUM('outside_transfer', 'client_transfer'),

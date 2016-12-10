@@ -102,7 +102,7 @@ async function _clientTransfer({ amount, fromAccountNumber, to } = {}, user) {
     
     return clientTransfer;
   } catch (err) {
-    transaction.rollback();
+    await transaction.rollback();
     await transactionBlock.update({
       status: 'failed'
     });
