@@ -24,7 +24,7 @@ function get(params, user) {
     }, {
       model: Currency
     }],
-    order: [ [Account, 'createdAt', 'DESC'] ]
+    order: 'createdAt DESC'
   }).map(account => {
     account = account.get({ plain: true });
     account.Cards[0] = deap.extend(account.Cards[0], {
