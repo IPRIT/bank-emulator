@@ -28,6 +28,7 @@ function get(params, user) {
     account.Cards[0] = deap.extend(account.Cards[0], {
       ccHolder: transliterate(user.fullName)
     });
+    console.log(account.Cards[0]);
     return account;
   });
 }
