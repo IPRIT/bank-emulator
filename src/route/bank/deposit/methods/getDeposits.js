@@ -33,7 +33,8 @@ async function get(params, user) {
       include: [{
         model: Currency
       }]
-    }]
+    }],
+    order: 'createdAt DESC'
   });
   return deposits;
 }
