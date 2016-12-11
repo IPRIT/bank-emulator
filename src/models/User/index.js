@@ -3,6 +3,11 @@ import sequelize from '../sequelize';
 import userGroups from './userGroups';
 import config from '../../utils/config';
 import crypto from 'crypto';
+import * as utils from '../../utils';
+
+function PHOTO() {
+  return `http://vk.com/images/stickers/${utils.getRandomNumber(1, 2465)}/128.png`;
+}
 
 let User = sequelize.define('User', {
   uuid: {
@@ -38,7 +43,7 @@ let User = sequelize.define('User', {
   },
   photo: {
     type: Sequelize.STRING,
-    defaultValue: 'https://pp.vk.me/c638716/v638716446/11e3b/nYOJbugtSBI.jpg'
+    defaultValue: PHOTO
   },
   isBan: {
     type: Sequelize.BOOLEAN,
