@@ -15,6 +15,9 @@ export default function getHistory(req, res, next) {
 }
 
 async function _getHistory({ accountNumber, offset = 0, limit = 20 } = {}, user) {
+  offset = Number(offset);
+  limit = Number(limit);
+  
   let targetAccount = await Account.findOne({
     where: {
       number: accountNumber,
@@ -111,7 +114,7 @@ async function _getHistory({ accountNumber, offset = 0, limit = 20 } = {}, user)
     }
   }));
   
-  return incomes.concat(outgoing)
+  return incomes.concat(...outgoing)
     .sort((a, b) => b.balanceChangeDate - a.balanceChangeDate)
     .slice(offset, offset + limit);
 }
