@@ -1,6 +1,6 @@
 import Promise from 'bluebird';
 import {
-  Account, ClientTransfer, Transaction, User, OutsideTransfer
+  Account, ClientTransfer, Transaction, User, OutsideTransfer, DepositReward, Deposit
 } from '../../../../models';
 
 export default function getHistory(req, res, next) {
@@ -113,6 +113,30 @@ async function _getHistory({ accountNumber, offset = 0, limit = 20 } = {}, user)
       }
     }
   }));
+  
+  /* Reward income */
+  let deposit = await Deposit.findOne({
+    where: {
+      accountNumber
+    }
+  });
+  
+  if (deposit) {
+    let rewardIncomes = await DepositReward.findAll({
+      where: {
+        depositUuid: deposit.uuid
+      }
+    });
+  
+    incomes.push(...rewardIncomes.map(reward => {
+      return {
+        balanceChange: reward.rewardAmount,
+        balanceChangeDate: reward.rewardDate,
+        type: 'income_deposit_reward',
+        fromDeposit: deposit
+      }
+    }));
+  }
   
   return incomes.concat(...outgoing)
     .sort((a, b) => b.balanceChangeDate - a.balanceChangeDate)

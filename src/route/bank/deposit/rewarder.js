@@ -2,11 +2,11 @@ import sequelize from '../../../models/sequelize';
 import { Deposit, DepositRecord, Account } from '../../../models';
 import Promise from 'bluebird';
 
-const annualPeriodMs = 5 * 60 * 1000; // year = 365.251 * 24 * 60 * 60 * 1000
+const annualPeriodMs = 60 * 60 * 1000; // year = 365.251 * 24 * 60 * 60 * 1000
 const annualCalculationPeriods = 12;
 const monthPeriodMs = annualPeriodMs / annualCalculationPeriods;
 
-const checkPeriod = 5 * 1000;
+const checkPeriod = 10 * 1000;
 
 let interval;
 
