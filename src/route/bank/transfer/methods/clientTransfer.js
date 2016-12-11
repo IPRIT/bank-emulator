@@ -112,6 +112,8 @@ async function _clientTransfer({ amount, fromAccountNumber, to } = {}, user) {
 }
 
 async function resolveAccount(value) {
+  let whitespacesRegExp = /(\s+)/gi;
+  value = value.replace(whitespacesRegExp, '');
   const accountDoesntExistErr = new HttpError('Account does not exist');
   if (!value) {
     throw accountDoesntExistErr;
